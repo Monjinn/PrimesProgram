@@ -79,7 +79,8 @@ public class PrimesProgram implements Runnable {
 	 * @param s Contains the number that is being checked.
 	 * @param textField Is the result field.
 	 */
-    private void singlePrime(String inputNumber){
+    @SuppressWarnings("unused")
+	private void singlePrime(String inputNumber){
     	boolean isNumber = tryParseLong(inputNumber);
     	
     	printOnScreen("\n-------------------------------------");
@@ -175,10 +176,20 @@ public class PrimesProgram implements Runnable {
     	
     	@Override
     	public String toString() {
-    		StringBuilder message = new StringBuilder("Primes found: " + found + "\nFound primes are: ");
+    		StringBuilder message = new StringBuilder("\nPrimes found: " + found + "\nFound primes are:\n");
+    		int counter = 1;
     		for(long prime : primes) {
-    			message.append(String.valueOf(prime) + ", ");
+    			if (counter == 10) {
+    				message.append("\n" + String.valueOf(prime) + ", ");
+    				counter = 1;
+    			}
+    			else {
+    				message.append(String.valueOf(prime) + ", ");
+    				counter++;
+    			}
     		}
+    		message.setLength(message.length() - 2);
+    		message.append("\n");
     		return message.toString();
     	}
     }
@@ -199,6 +210,7 @@ public class PrimesProgram implements Runnable {
 			if (this.runMode == ProgramMode.FIND_PRIMES) {
 				RecordHelper rh = findPrimesFromRange(this.findPrimesStartRange, this.findPrimesEndRange);
 				printOnScreen(rh.toString());
+				result.setCaretPosition(result.getDocument().getLength());
 			}
 			else {
 				printOnScreen("Nothing");
